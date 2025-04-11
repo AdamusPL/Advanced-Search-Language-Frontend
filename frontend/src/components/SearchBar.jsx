@@ -6,7 +6,7 @@ import { Autocomplete, TextField } from '@mui/material';
 
 export default function SearchBar({ onSearch }) {
     const [fields, setFields] = useState([{ id: 1, value: '' }]);
-    const suggestions = ["from:", "to:", "@", "\"\"", "-", "since:", "until:", "findtitle:", "lang:"];
+    const suggestions = ["from:", "\"\"", "since:", "until:", "findtitle:", "lang:", "findcontent:", "limit:", "filter:", "OR", "AND"];
 
     const addField = (newValue) => {
         if (!fields.some(field => field.value === newValue) && suggestions.includes(newValue)) {
@@ -50,7 +50,7 @@ export default function SearchBar({ onSearch }) {
                         }
                     }}
                     onChange={(event, newValue) => {
-                        if (!newValue && fields.length > 1) {
+                        if (!newValue && fields.length > 1 && field.id === fields.length) {
                             handleClear(field.id);
                         }
                     }}
