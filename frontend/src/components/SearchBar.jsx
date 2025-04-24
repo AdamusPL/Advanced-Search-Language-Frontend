@@ -1,12 +1,10 @@
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 
-export default function SearchBar({ onSearch }) {
-    const [fields, setFields] = useState([{ id: 1, value: '' }]);
-    const suggestions = ["from:", "\"\"", "since:", "until:", "findtitle:", "lang:", "findcontent:", "limit:", "filter:", "OR", "AND"];
+export default function SearchBar({ fields, setFields, onSearch }) {
+    const suggestions = ["from:", "\"\"", "since:", "until:", "findtitle:", "lang:", "findcontent:", "OR", "AND"];
 
     const addField = (newValue) => {
         if (!fields.some(field => field.value === newValue) && suggestions.includes(newValue)) {
@@ -25,11 +23,12 @@ export default function SearchBar({ onSearch }) {
     };
 
     const search = () => {
-        let query = fields.map(field => field.value.trim()).join(' ');
+        let query = fields.map(field => field.value.trim()).join(' ') + "limit:5 offset:0";
 
         fetch(`http://localhost:8080/api/v1/search/article/custom?query=${query}`)
             .then(response => response.json())
             .then(data => {
+                debugger;
                 console.log(data);
                 onSearch(data);
             });

@@ -7,10 +7,13 @@ import Table from '../components/Table';
 import { useState } from 'react';
 
 export default function Home() {
-    const [rows, setRows] = useState([]); 
+    const [rows, setRows] = useState({}); 
+    const [fields, setFields] = useState([{ id: 1, value: '' }]);
+    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
 
     const handleSearchResults = (data) => {
         setRows(data);
+        setPaginationModel({ page: 0, pageSize: paginationModel.pageSize });
     };
 
     return (
@@ -20,9 +23,9 @@ export default function Home() {
                 <p className='rubik-wet-paint-regular'>Here you can search something intriuging in our database by not using regular SQL but X/Twitter manner</p>
                 <ArrowDownwardIcon id='icon'></ArrowDownwardIcon>
                 <div id='search'>
-                    <SearchBar onSearch={handleSearchResults} />
+                    <SearchBar fields={fields} setFields={setFields} onSearch={handleSearchResults} />
                 </div>
-                <Table rows={rows} />
+                <Table rows={rows} setRows={setRows} fields={fields} setFields={setFields} paginationModel={paginationModel} setPaginationModel={setPaginationModel} />
             </Container>
         </>
     );

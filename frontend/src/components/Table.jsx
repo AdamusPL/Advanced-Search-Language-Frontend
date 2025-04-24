@@ -1,30 +1,54 @@
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
+import { useEffect, useState } from 'react';
 
-const columns = [
-    { field: 'id', headerName: 'ID' },
-    { field: 'title', headerName: 'Title' },
-    { field: 'description', headerName: 'Description' },
-    {
-        field: 'language',
-        headerName: 'Language',
-        type: 'string',
-    },
-    {
-        field: 'name_surname',
-        headerName: 'Author',
-    },
-];
+export default function Table({ rows, setRows, fields, setFields, paginationModel, setPaginationModel }) {
+    const columns = [
+        { field: 'id', headerName: 'ID' },
+        { field: 'title', headerName: 'Title' },
+        { field: 'description', headerName: 'Description' },
+        {
+            field: 'language',
+            headerName: 'Language',
+            type: 'string',
+        },
+        {
+            field: 'name_surname',
+            headerName: 'Author',
+        },
+    ];
+    
+    const [rowCount, setRowCount] = useState(0);
+    
+    function fetchData() {
+        debugger;
+        let query = fields.map(field => field.value.trim()).join(' ');
 
-const paginationModel = { page: 0, pageSize: 5 };
+        fetch(
+            `http://localhost:8080/api/v1/search/article/custom?query=${query}limit:${paginationModel.pageSize}&page=${paginationModel.page+1}`
+        ).then(response => {
+            return response.json();
+        }).then(data => {
+            debugger;
+            setRows(data);
+            setRowCount(data.totalPages * paginationModel.pageSize);
+        });
+    };
+    
+    useEffect(() => {
+        fetchData();
+    }, [paginationModel]);
 
-export default function Table( {rows} ) {
     return (<>
         <Paper sx={{ height: 400, width: '100%' }}>
             <DataGrid
-                rows={rows}
+                pagination
+                rows={rows.posts}
                 columns={columns}
-                initialState={{ pagination: { paginationModel } }}
+                paginationMode="server"
+                paginationModel={paginationModel}
+                onPaginationModelChange={(newModel) => setPaginationModel(newModel)}
+                rowCount={rowCount}
                 pageSizeOptions={[5, 10]}
                 checkboxSelection
                 sx={{ border: 0 }}
