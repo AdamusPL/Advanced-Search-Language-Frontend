@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Autocomplete, TextField } from '@mui/material';
 
 export default function SearchBar({ fields, setFields, onSearch }) {
-    const suggestions = ["from:", "\"\"", "since:", "until:", "findtitle:", "lang:", "findcontent:", "OR", "AND"];
+    const suggestions = ["from:", "\"\"", "since:", "until:", "findtitle:", "lang:", "findcontent:", "orderby:", "sortby:", "OR", "AND"];
 
     const addField = (newValue) => {
         if (!fields.some(field => field.value === newValue) && suggestions.includes(newValue)) {

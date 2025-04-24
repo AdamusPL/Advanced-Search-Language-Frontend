@@ -5,17 +5,12 @@ import { useEffect, useState } from 'react';
 export default function Table({ rows, setRows, fields, setFields, paginationModel, setPaginationModel }) {
     const columns = [
         { field: 'id', headerName: 'ID' },
+        { field: 'author', headerName: 'Author' },
         { field: 'title', headerName: 'Title' },
         { field: 'description', headerName: 'Description' },
-        {
-            field: 'language',
-            headerName: 'Language',
-            type: 'string',
-        },
-        {
-            field: 'name_surname',
-            headerName: 'Author',
-        },
+        { field: 'language', headerName: 'Language' },
+        { field: 'created_at', headerName: 'Created At' },
+        { field: 'updated_at', headerName: 'Updated At' },
     ];
     
     const [rowCount, setRowCount] = useState(0);
