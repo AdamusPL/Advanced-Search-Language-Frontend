@@ -16,7 +16,6 @@ export default function Table({ rows, setRows, fields, setFields, paginationMode
     const [rowCount, setRowCount] = useState(0);
     
     function fetchData() {
-        debugger;
         let query = fields.map(field => field.value.trim()).join(' ');
 
         fetch(
@@ -24,7 +23,6 @@ export default function Table({ rows, setRows, fields, setFields, paginationMode
         ).then(response => {
             return response.json();
         }).then(data => {
-            debugger;
             setRows(data);
             setRowCount(data.totalPages * paginationModel.pageSize);
         });

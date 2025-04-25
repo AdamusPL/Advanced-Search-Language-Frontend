@@ -28,8 +28,6 @@ export default function SearchBar({ fields, setFields, onSearch }) {
         fetch(`http://localhost:8080/api/v1/search/article/custom?query=${query}`)
             .then(response => response.json())
             .then(data => {
-                debugger;
-                console.log(data);
                 onSearch(data);
             });
     };
